@@ -609,17 +609,19 @@ function MenuAction:runMediaCommand(action, quantity)
             -- hs.notify.show("Volume changed", subtitle, "")
         end,
         mute = function()
-            local device = hs.audiodevice.defaultOutputDevice()
+            hs.eventtap.event.newSystemKeyEvent("MUTE", true):post()
+            hs.eventtap.event.newSystemKeyEvent("MUTE", false):post()
+            -- local device = hs.audiodevice.defaultOutputDevice()
 
-            if device:muted() then
-                print("Unmuting")
-                device:setOutputMuted(false)
-                hs.notify.show("Unmuted", "", "")
-            else
-                print("Muting")
-                device:setOutputMuted(true)
-                hs.notify.show("Muted", "", "")
-            end
+            -- if device:muted() then
+            --     print("Unmuting")
+            --     device:setOutputMuted(false)
+            --     hs.notify.show("Unmuted", "", "")
+            -- else
+            --     print("Muting")
+            --     device:setOutputMuted(true)
+            --     hs.notify.show("Muted", "", "")
+            -- end
         end,
         setBrightness = function()
             local newBrightness = tonumber(self:replacePlaceholders(quantity,
