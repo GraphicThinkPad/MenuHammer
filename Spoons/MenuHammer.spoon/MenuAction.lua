@@ -574,7 +574,10 @@ function MenuAction:runMediaCommand(action, quantity)
     local mediaCommands = {
         previous = function() hs.itunes:previous() end,
         next = function() hs.itunes:next() end,
-        playpause = function() hs.itunes:playpause() end,
+        playpause = function()                  
+            hs.eventtap.event.newSystemKeyEvent("PLAY", true):post()
+            hs.eventtap.event.newSystemKeyEvent("PLAY", false):post()
+        end,
         setVolume = function()
             local device = hs.audiodevice.defaultOutputDevice()
             local newVolume = tonumber(self:replacePlaceholders(quantity,
