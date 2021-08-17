@@ -588,14 +588,22 @@ function MenuAction:runMediaCommand(action, quantity)
             hs.notify.show("Volume changed", subtitle, "")
         end,
         adjustVolume = function()
-            local device = hs.audiodevice.defaultOutputDevice()
-            local volume = device:volume() + quantity
+            -- I prefer to use the built in sound up/down keys
+            if quantity > 0 then
+                hs.eventtap.event.newSystemKeyEvent("SOUND_UP", true):post()
+                hs.eventtap.event.newSystemKeyEvent("SOUND_UP", false):post()
+            else 
+                hs.eventtap.event.newSystemKeyEvent("SOUND_DOWN", true):post()
+                hs.eventtap.event.newSystemKeyEvent("SOUND_DOWN", false):post()
+            end
+            -- local device = hs.audiodevice.defaultOutputDevice()
+            -- local volume = device:volume() + quantity
 
-            device:setOutputVolume(volume)
+            -- device:setOutputVolume(volume)
 
-            local subtitle = "Volume is now " .. tostring(volume)
+            -- local subtitle = "Volume is now " .. tostring(volume)
 
-            hs.notify.show("Volume changed", subtitle, "")
+            -- hs.notify.show("Volume changed", subtitle, "")
         end,
         mute = function()
             local device = hs.audiodevice.defaultOutputDevice()
@@ -621,15 +629,23 @@ function MenuAction:runMediaCommand(action, quantity)
             hs.notify.show("Brightness changed", subtitle, "")
         end,
         adjustBrightness = function()
-            local brightness = hs.brightness.get()
+            -- I also prefer to use the built in brightness indicator
+            if quantity > 0 then
+                hs.eventtap.event.newSystemKeyEvent("BRIGHTNESS_UP", true):post()
+                hs.eventtap.event.newSystemKeyEvent("BRIGHTNESS_UP", false):post()
+            else 
+                hs.eventtap.event.newSystemKeyEvent("BRIGHTNESS_DOWN", true):post()
+                hs.eventtap.event.newSystemKeyEvent("BRIGHTNESS_DOWN", false):post()
+            end
+            -- local brightness = hs.brightness.get()
 
-            brightness = brightness + quantity
+            -- brightness = brightness + quantity
 
-            hs.brightness.set(brightness)
+            -- hs.brightness.set(brightness)
 
-            local subtitle = "Brightness is now " .. tostring(brightness)
+            -- local subtitle = "Brightness is now " .. tostring(brightness)
 
-            hs.notify.show("Brightness changed", subtitle, "")
+            -- hs.notify.show("Brightness changed", subtitle, "")
         end,
     }
 
